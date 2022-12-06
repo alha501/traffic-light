@@ -1,6 +1,20 @@
 input.onButtonPressed(Button.A, function () {
-	
+    traffic_light()
 })
+function traffic_light () {
+    RED()
+    for (let index = 0; index < 2; index++) {
+        basic.pause(200)
+    }
+    YELLOW()
+    for (let index = 0; index < 2; index++) {
+        basic.pause(200)
+    }
+    GREEN()
+    for (let index = 0; index < 2; index++) {
+        basic.pause(200)
+    }
+}
 function RED () {
     range = strip.range(0, 1)
     range.showColor(neopixel.colors(NeoPixelColors.Red))
@@ -8,7 +22,6 @@ function RED () {
     range.showColor(neopixel.colors(NeoPixelColors.Black))
     range = strip.range(2, 1)
     range.showColor(neopixel.colors(NeoPixelColors.Black))
-    basic.showIcon(IconNames.Angry)
 }
 function GREEN () {
     range = strip.range(0, 1)
@@ -17,7 +30,6 @@ function GREEN () {
     range.showColor(neopixel.colors(NeoPixelColors.Black))
     range = strip.range(2, 1)
     range.showColor(neopixel.colors(NeoPixelColors.Green))
-    basic.showIcon(IconNames.Happy)
 }
 input.onButtonPressed(Button.AB, function () {
     basic.showIcon(IconNames.StickFigure)
@@ -25,8 +37,18 @@ input.onButtonPressed(Button.AB, function () {
     for (let index = 0; index <= 15; index++) {
         basic.showNumber(15 - index)
     }
-    RED()
-    music.playMelody("C C C C C C C C ", 196)
+    basic.pause(500)
+    traffic_light()
+    music.playMelody("A A G E E D C - ", 196)
+})
+input.onButtonPressed(Button.B, function () {
+    basic.showIcon(IconNames.StickFigure)
+    for (let index = 0; index <= 15; index++) {
+        basic.showNumber(15 - index)
+    }
+    basic.pause(500)
+    traffic_light()
+    basic.showIcon(IconNames.No)
 })
 function sensor () {
     pins.digitalWritePin(DigitalPin.P1, 0)
@@ -44,15 +66,15 @@ function YELLOW () {
     range.showColor(neopixel.colors(NeoPixelColors.Yellow))
     range = strip.range(2, 1)
     range.showColor(neopixel.colors(NeoPixelColors.Black))
-    basic.showIcon(IconNames.Asleep)
 }
 let count = 0
 let distance = 0
 let range: neopixel.Strip = null
 let strip: neopixel.Strip = null
-strip = neopixel.create(DigitalPin.P16, 3, NeoPixelMode.RGB)
+strip = neopixel.create(DigitalPin.P0, 3, NeoPixelMode.RGB)
 strip.setBrightness(70)
-basic.showIcon(IconNames.Yes)
+RED()
+basic.showIcon(IconNames.No)
 basic.forever(function () {
     for (let index = 0; index < 4; index++) {
         if (distance <= 5) {
@@ -61,25 +83,6 @@ basic.forever(function () {
         }
     }
     if (count == 4) {
-        GREEN()
-        basic.pause(2000)
-        YELLOW()
-        basic.pause(2000)
-        RED()
-        basic.pause(2000)
-    }
-})
-basic.forever(function () {
-    RED()
-    for (let index = 0; index < 2; index++) {
-        basic.pause(200)
-    }
-    YELLOW()
-    for (let index = 0; index < 2; index++) {
-        basic.pause(200)
-    }
-    GREEN()
-    for (let index = 0; index < 2; index++) {
-        basic.pause(200)
+        traffic_light()
     }
 })
