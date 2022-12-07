@@ -1,20 +1,18 @@
-input.onButtonPressed(Button.A, function () {
-    traffic_light()
+radio.onReceivedNumber(function (receivedNumber) {
+    if (receivedNumber == 2) {
+        YELLOW()
+        basic.pause(200)
+        RED()
+    } else if (receivedNumber == 8) {
+        basic.pause(200)
+        GREEN()
+    } else if (receivedNumber == 35) {
+        resume_traffic_light()
+    }
 })
-function traffic_light () {
-    RED()
-    for (let index = 0; index < 2; index++) {
-        basic.pause(200)
-    }
-    YELLOW()
-    for (let index = 0; index < 2; index++) {
-        basic.pause(200)
-    }
-    GREEN()
-    for (let index = 0; index < 2; index++) {
-        basic.pause(200)
-    }
-}
+input.onButtonPressed(Button.A, function () {
+	
+})
 function RED () {
     range = strip.range(0, 1)
     range.showColor(neopixel.colors(NeoPixelColors.Red))
@@ -22,6 +20,20 @@ function RED () {
     range.showColor(neopixel.colors(NeoPixelColors.Black))
     range = strip.range(2, 1)
     range.showColor(neopixel.colors(NeoPixelColors.Black))
+}
+function resume_traffic_light () {
+    RED()
+    for (let index = 0; index < 2; index++) {
+        basic.pause(2000)
+    }
+    YELLOW()
+    for (let index = 0; index < 2; index++) {
+        basic.pause(2000)
+    }
+    GREEN()
+    for (let index = 0; index < 2; index++) {
+        basic.pause(2000)
+    }
 }
 function GREEN () {
     range = strip.range(0, 1)
@@ -32,13 +44,15 @@ function GREEN () {
     range.showColor(neopixel.colors(NeoPixelColors.Green))
 }
 input.onButtonPressed(Button.AB, function () {
+    RED()
+    basic.pause(200)
     basic.showIcon(IconNames.StickFigure)
     music.playMelody("E D G F B A C5 B ", 196)
     for (let index = 0; index <= 15; index++) {
         basic.showNumber(15 - index)
     }
     basic.pause(500)
-    traffic_light()
+    resume_traffic_light()
     music.playMelody("A A G E E D C - ", 196)
 })
 input.onButtonPressed(Button.B, function () {
@@ -47,7 +61,7 @@ input.onButtonPressed(Button.B, function () {
         basic.showNumber(15 - index)
     }
     basic.pause(500)
-    traffic_light()
+    resume_traffic_light()
     basic.showIcon(IconNames.No)
 })
 function sensor () {
@@ -71,10 +85,11 @@ let count = 0
 let distance = 0
 let range: neopixel.Strip = null
 let strip: neopixel.Strip = null
-strip = neopixel.create(DigitalPin.P0, 3, NeoPixelMode.RGB)
+strip = neopixel.create(DigitalPin.P16, 3, NeoPixelMode.RGB)
 strip.setBrightness(70)
 RED()
-basic.showIcon(IconNames.No)
+basic.showIcon(IconNames.Yes)
+radio.setGroup(32)
 basic.forever(function () {
     for (let index = 0; index < 4; index++) {
         if (distance <= 5) {
@@ -83,6 +98,6 @@ basic.forever(function () {
         }
     }
     if (count == 4) {
-        traffic_light()
+        resume_traffic_light()
     }
 })

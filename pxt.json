@@ -1,5 +1,5 @@
 {
-    "name": "Hardware: Traffic Light",
+    "name": "(1) Hardware: Traffic Light",
     "description": "",
     "dependencies": {
         "core": "*",
