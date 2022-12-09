@@ -1,13 +1,22 @@
 radio.onReceivedNumber(function (receivedNumber) {
     if (receivedNumber == 2) {
         YELLOW()
+        for (let index = 0; index < 3; index++) {
+            basic.pause(1000)
+        }
+        RED()
+    } else if (receivedNumber == 35) {
         basic.pause(2000)
         RED()
-    } else if (receivedNumber == 8) {
         basic.pause(2000)
+        YELLOW()
+        for (let index = 0; index < 3; index++) {
+            basic.pause(1000)
+        }
         GREEN()
-    } else if (receivedNumber == 35) {
-        resume_traffic_light()
+        for (let index = 0; index < 2; index++) {
+            basic.pause(5000)
+        }
     }
 })
 input.onButtonPressed(Button.A, function () {
@@ -28,8 +37,8 @@ function resume_traffic_light () {
         basic.pause(1000)
     }
     GREEN()
-    for (let index = 0; index < 2; index++) {
-        basic.pause(2000)
+    for (let index = 0; index < 3; index++) {
+        basic.pause(5000)
     }
 }
 function GREEN () {
@@ -48,9 +57,10 @@ input.onButtonPressed(Button.B, function () {
         basic.showNumber(15 - index)
         music.playMelody("C5 A E D C - - - ", 196)
     }
+    music.playMelody("E D C C C C C C ", 196)
     basic.pause(500)
     resume_traffic_light()
-    music.playMelody("E D C C C C C C ", 196)
+    RED()
 })
 function sensor () {
     pins.digitalWritePin(DigitalPin.P1, 0)
@@ -69,25 +79,22 @@ function YELLOW () {
     range = strip.range(2, 1)
     range.showColor(neopixel.colors(NeoPixelColors.Black))
 }
-let count = 0
+let counter = 0
 let range: neopixel.Strip = null
 let distance = 0
 let strip: neopixel.Strip = null
-strip = neopixel.create(DigitalPin.P3, 3, NeoPixelMode.RGB)
+strip = neopixel.create(DigitalPin.P16, 3, NeoPixelMode.RGB)
 strip.setBrightness(70)
 RED()
 basic.showIcon(IconNames.Yes)
 radio.setGroup(32)
 distance = 5
 basic.forever(function () {
-    for (let index = 0; index < 4; index++) {
-        if (distance <= 5) {
-            count = 1
-        }
-        sensor()
+    sensor()
+    if (distance < 5) {
+        counter = 1
     }
-    if (count == 4) {
+    if (counter == 4) {
         resume_traffic_light()
     }
-    count = 1
 })
