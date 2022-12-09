@@ -86,7 +86,7 @@ let strip: neopixel.Strip = null
 strip = neopixel.create(DigitalPin.P16, 3, NeoPixelMode.RGB)
 strip.setBrightness(70)
 RED()
-basic.showIcon(IconNames.Yes)
+basic.showIcon(IconNames.No)
 radio.setGroup(32)
 distance = 5
 basic.forever(function () {
